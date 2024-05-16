@@ -1,0 +1,69 @@
+PROGRAM CreationVisualizer
+    DEFINE creationDays AS a Map of Integer and CreationDay objects
+    DEFINE scanner AS a Scanner object
+
+    FUNCTION main()
+        CALL initializeCreationDays()
+        CALL promptUser()
+
+    FUNCTION initializeCreationDays()
+        CREATE a Gson object
+        READ creation_data.json file
+        PARSE the JSON data into a List of CreationData objects
+        INITIALIZE dayNumber to 1
+        FOR EACH CreationData object in the list
+            CREATE a new CreationDay object with the verse, description, and visualElements from the CreationData object
+            ADD the CreationDay object to the creationDays Map with the dayNumber as the key
+            INCREMENT dayNumber
+        END FOR
+        CATCH any IOException and print the error
+
+    FUNCTION promptUser()
+        PRINT a prompt asking the user to enter a day number (1-7)
+        READ the user input as an Integer
+        IF the day number is between 1 and 7
+            GET the CreationDay object from the creationDays Map using the day number as the key
+            IF the CreationDay object is not null
+                CALL the displayDay() method on the CreationDay object
+            ELSE
+                PRINT "Invalid day number."
+        ELSE
+            PRINT "Invalid day number."
+
+    CLASS CreationData
+        DEFINE verse AS a String
+        DEFINE description AS a String
+        DEFINE visualElements AS a List of Strings
+
+        CONSTRUCTOR(verse, description, visualElements)
+            SET this.verse to verse
+            SET this.description to description
+            SET this.visualElements to visualElements
+
+        FUNCTION getVerse()
+            RETURN verse
+
+        FUNCTION getDescription()
+            RETURN description
+
+        FUNCTION getVisualElements()
+            RETURN visualElements
+
+    CLASS CreationDay
+        DEFINE verse AS a String
+        DEFINE description AS a String
+        DEFINE visualElements AS a List of Strings
+
+        CONSTRUCTOR(verse, description, visualElements)
+            SET this.verse to verse
+            SET this.description to description
+            SET this.visualElements to visualElements
+
+        FUNCTION displayDay()
+            PRINT verse
+            PRINT description
+            FOR EACH element in visualElements
+                PRINT element followed by a space
+            PRINT a newline
+
+END PROGRAM
